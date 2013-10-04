@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-char buffer[100];
-int indice;
+int contador;
 
 void agregar(char c);
 void quitar();
@@ -14,7 +13,7 @@ void * productor()
   {
     char c = 'a' + rand()%24;
     agregar(c);
-    sleep(1);
+    usleep(1000);
   }
 }
 void * consumidor()
@@ -22,7 +21,7 @@ void * consumidor()
   while(1)
   {
     quitar();
-    sleep(1);
+    usleep(1000);
   }
 }
 
@@ -30,9 +29,9 @@ void * imprimir()
 {
     while(1){
         int i;
-        printf("%d",indice);
+        printf("%d",contador);
         printf("\n");
-        sleep(1);
+        usleep(1000);
     }
 }
 
@@ -42,7 +41,7 @@ int main()
     pthread_t thread_consumidor;
     pthread_t thread_productor;
 
-    indice = 0;
+    contador = 0;
 
     //pthread_create(&thread_imprimir, NULL, imprimir, NULL );
     pthread_create(&thread_consumidor, NULL, consumidor, NULL );
@@ -55,18 +54,17 @@ int main()
 
 void agregar(char c)
 {
-  if(indice<100){
-    buffer[indice] = c;
-    indice++;
-    printf("%d\n",indice);
+  if(contador<100){
+    contador++;
+    printf("%d\n",contador);
   }
 }
 
 void quitar()
 {
-  if(indice>0)
+  if(contador>0)
   {
-    indice--;
-    printf("%d\n",indice);
+    contador--;
+    printf("%d\n",contador);
   }
 }
