@@ -1,3 +1,6 @@
+//
+// Imprimir A luego A luego B
+//
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
