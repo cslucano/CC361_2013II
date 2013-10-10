@@ -11,8 +11,8 @@ sem_t semaforo;
 
 void * imprimirA()
 {
-  sem_post(&semaforo);
   printf("A\n");
+  sem_post(&semaforo);
 }
 void * imprimirB()
 {

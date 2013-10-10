@@ -50,6 +50,7 @@ int main()
 {
     pthread_t thread_impA;
     pthread_t thread_impB;
+    pthread_t thread_impC;
 
     pthread_mutex_init(&mutex, NULL);
     sem_init(&sem1, 0, 1);
@@ -58,6 +59,7 @@ int main()
     contadorB = 0;
 
     pthread_create(&thread_impA, NULL, imprimirA, NULL );
+    pthread_create(&thread_impC, NULL, imprimirA, NULL );
     pthread_create(&thread_impB, NULL, imprimirB, NULL );
 
     pthread_join(thread_impA, NULL);
