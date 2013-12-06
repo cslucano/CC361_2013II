@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <semaphore.h>
 
 char buffer[100];
 int indice;
+pthread_mutex_t mutex;
+sem_t sem_espacios_vacios;
+sem_t sem_espacios_ocupados;
 
 void agregar(char c);
 void quitar();
@@ -40,13 +44,18 @@ int main()
 {
     //pthread_t thread_imprimir;
     pthread_t thread_consumidor;
-    pthread_t thread_productor;
+    pthread_t thread_productor1;
+    pthread_t thread_productor2;
 
     indice = 0;
+    pthread_mutex_init(&mutex, NULL);
+    sem_init(&sem_espacios_vacios,0,100);
+    sem_init(&sem_espacios_ocupados,0,0);
 
     //pthread_create(&thread_imprimir, NULL, imprimir, NULL );
     pthread_create(&thread_consumidor, NULL, consumidor, NULL );
-    pthread_create(&thread_productor, NULL, productor, NULL );
+    pthread_create(&thread_productor1, NULL, productor, NULL );
+    pthread_create(&thread_productor2, NULL, productor, NULL );
 
     pthread_join(thread_consumidor, NULL);
 
@@ -55,18 +64,21 @@ int main()
 
 void agregar(char c)
 {
-  if(indice<100){
+    sem_wait(&sem_espacios_vacios);
+    pthread_mutex_lock(&mutex);
     buffer[indice] = c;
     indice++;
     printf("%d\n",indice);
-  }
+    sem_post(&sem_espacios_ocupados);
+    pthread_mutex_unlock(&mutex);
 }
 
 void quitar()
 {
-  if(indice>0)
-  {
+    sem_wait(&sem_espacios_ocupados);
+    pthread_mutex_lock(&mutex);
     indice--;
     printf("%d\n",indice);
-  }
+    sem_post(&sem_espacios_vacios);
+    pthread_mutex_unlock(&mutex);
 }
