@@ -1,0 +1,41 @@
+//Programa llamado eco cuando el usuario escribe una tecla y se imprime.
+#include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+
+char buffer[100];//Arreglo de 100 caracteres
+int indice;
+
+//Funcion devuelve un puntero a vacio
+void * grabar(){
+  while(1){
+   int i;
+     for(i=0;i<=indice;i++) {
+    printf("%c - ",buffer[i]);
+     }
+   printf("\n");
+   sleep(1);
+  }
+}
+
+int main(){
+   pthread_t thread_grabar;//tipo de la variable
+   pthread_create(&thread_grabar,NULL,grabar,NULL);
+
+   indice = 0;
+   char c = 'a';
+   while(gets(&c)){
+    switch(c){
+        case 'i':{
+            buffer[indice]=c;
+            indice++;
+            break;
+             }
+        case 's':{
+            indice--;
+            break;
+             }
+    }
+   }
+   return 0;
+}
