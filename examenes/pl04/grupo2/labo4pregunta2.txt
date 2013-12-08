@@ -1,0 +1,43 @@
+//Pregunta 1a
+pc07s4@pc07s4:~/Escritorio/labo4$ umask 0027
+//u=rwx,g=rx,o=
+pc07s4@pc07s4:~/Escritorio/labo4$ mkdir a1
+pc07s4@pc07s4:~/Escritorio/labo4$ touch a2
+pc07s4@pc07s4:~/Escritorio/labo4$ ll
+total 12
+drwxr-xr-x 3 pc07s4 pc07s4 4096 dic  6 10:04 ./
+drwxr-xr-x 3 pc07s4 pc07s4 4096 dic  6 10:03 ../
+drwxr-x--- 2 pc07s4 pc07s4 4096 dic  6 10:04 a1/
+-rw-r----- 1 pc07s4 pc07s4    0 dic  6 10:04 a2
+
+//Pregunta a2:
+pc07s4@pc07s4:~/Escritorio/labo4$ umask 0022
+//u=rwx,g=rx,o=rx
+pc07s4@pc07s4:~/Escritorio/labo4$ mkdir b1
+pc07s4@pc07s4:~/Escritorio/labo4$ touch b2
+pc07s4@pc07s4:~/Escritorio/labo4$ ll
+total 16
+drwxr-xr-x 4 pc07s4 pc07s4 4096 dic  6 10:06 ./
+drwxr-xr-x 3 pc07s4 pc07s4 4096 dic  6 10:03 ../
+drwxr-x--- 2 pc07s4 pc07s4 4096 dic  6 10:04 a1/
+-rw-r----- 1 pc07s4 pc07s4    0 dic  6 10:04 a2
+drwxr-xr-x 2 pc07s4 pc07s4 4096 dic  6 10:06 b1/
+-rw-r--r-- 1 pc07s4 pc07s4    0 dic  6 10:06 b2
+
+//Pregunta b:
+
+setfacl -m "g:A1:r-x" Demo1    //A1 es un grupo
+setfacl -m "g:A2:r-x" Demo1    //A2 es un grupo
+
+pc07s4@pc07s4:~/Escritorio$ getfacl Demo1
+# file: Demo1
+# owner: pc07s4
+# group: pc07s4
+user::---
+group::-w-
+group:pc07s4:r-x
+mask::rwx
+other::-w-
+
+
+
